@@ -58,4 +58,5 @@ public class CampaignDiscount {
     public void setDiscount(float discount) {
         this.discount = discount;
     }
+
 }

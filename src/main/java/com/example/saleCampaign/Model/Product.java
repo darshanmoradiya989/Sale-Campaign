@@ -3,6 +3,7 @@ package com.example.saleCampaign.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,6 +30,9 @@ public class Product {
 
     @Column(name = "inventory")
     private int inventory;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PriceHistory> priceHistories;
 
     public Product() {
         this.id = generateUniqueId();
@@ -108,5 +112,13 @@ public class Product {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+
+    public List<PriceHistory> getPriceHistories() {
+        return priceHistories;
+    }
+
+    public void setPriceHistories(List<PriceHistory> priceHistories) {
+        this.priceHistories = priceHistories;
     }
 }
