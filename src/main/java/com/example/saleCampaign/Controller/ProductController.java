@@ -29,6 +29,13 @@ public class ProductController {
     @GetMapping("getAllPaginated")
     public ResponseDTO<Page<Product>> getAllProductsPaginated(@RequestParam(defaultValue = "1") int page,
                                                                  @RequestParam(defaultValue = "10") int size) {
-        return productService.getAllHousesPaginated(page, size);
+        return productService.getAllPaginated(page, size);
     }
+
+    @PutMapping("updatePrice")
+    public ResponseDTO<Product> updateProductPrice(@RequestHeader("productId") int productId, @RequestHeader("price") long price) {
+        return productService.updateProductPrice(productId, price);
+    }
+
+
 }

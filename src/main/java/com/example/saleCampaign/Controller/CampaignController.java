@@ -4,10 +4,9 @@ import com.example.saleCampaign.Model.Campaign;
 import com.example.saleCampaign.Model.ResponseDTO;
 import com.example.saleCampaign.Service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("campaigns")
@@ -19,5 +18,10 @@ public class CampaignController {
     @PostMapping("saveCampaign")
     public ResponseDTO<Campaign> saveCampaign(@RequestBody Campaign campaign) {
         return campaignService.saveCampaign(campaign);
+    }
+
+    @GetMapping("getCampaign")
+    public ResponseDTO<List<Campaign>> getCampaign() {
+        return campaignService.getAllCampaigns();
     }
 }
