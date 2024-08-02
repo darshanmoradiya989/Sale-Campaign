@@ -17,23 +17,18 @@ import java.util.List;
 public class CampaignService {
 
     @Autowired
-    CampaignRepository campaignRepository;
+    private CampaignRepository campaignRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     public ResponseDTO<Campaign> saveCampaign(Campaign campaign){
         try {
             for (CampaignDiscount discount : campaign.getCampaignDiscounts()) {
                 discount.setCampaign(campaign);
-                Product product = productRepository.findById(discount.getProductId())
-                        .orElseThrow(() -> new RuntimeException("Product not found"));
-
-                long futurePrice = product.getCurrentPrice() - (long) (product.getCurrentPrice() * (discount.getDiscount() / 100.0));
-                productService.saveHistory(product,futurePrice,campaign.getStartDate(), discount.getDiscount());
             }
             return new ResponseDTO<>(campaignRepository.save(campaign), HttpStatus.OK, "save campaign successfully");
         } catch (Exception e) {

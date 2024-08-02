@@ -2,8 +2,6 @@ package com.example.saleCampaign.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -35,9 +33,8 @@ public class Campaign {
 
     private int generateUniqueId() {
         String uuid = UUID.randomUUID().toString().replace("-", "");
-        String productId = uuid.substring(0, 6);
-        int uniqueId = Integer.parseInt(productId, 16);
-        return uniqueId % 1000000;
+        String accNo = uuid.substring(0,6);
+        return (int) (Integer.parseInt(accNo,16) % 1000000L);
     }
 
     @Override

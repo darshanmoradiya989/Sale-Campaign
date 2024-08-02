@@ -18,20 +18,34 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    CampaignRepository campaignRepository;
+    private CampaignRepository campaignRepository;
 
     @Autowired
-    PriceHistoryRepository priceHistoryRepository;
+    private PriceHistoryRepository priceHistoryRepository;
 
     public ResponseDTO<Product> saveProduct(Product product){
         try{
             Product savedProduct = productRepository.save(product);
-            saveHistory(product, product.getCurrentPrice(), LocalDate.now(), product.getDiscount());
+            double discountAmount =  (product.getCurrentPrice() * (product.getDiscount() / 100));
+            saveHistory(product, product.getCurrentPrice(), LocalDate.now(), discountAmount);
             return new ResponseDTO<>(savedProduct, HttpStatus.OK, "Product saved successfully");
         } catch (Exception e){
+            return new ResponseDTO<>(null, HttpStatus.INTERNAL_SERVER_ERROR, "failed to save product" + e.getMessage());
+        }
+    }
+
+    public  ResponseDTO<List<Product>> saveAllProduct(List<Product> product) {
+        try {
+            List<Product> productsList = productRepository.saveAll(product);
+            for (Product products : productsList){
+                double discountAmount =  (products.getCurrentPrice() * (products.getDiscount() / 100));
+                saveHistory(products, products.getCurrentPrice(), LocalDate.now(), discountAmount);
+            }
+            return new ResponseDTO<>(productsList, HttpStatus.OK, "Successfully saved");
+        } catch (Exception e) {
             return new ResponseDTO<>(null, HttpStatus.INTERNAL_SERVER_ERROR, "failed to save product" + e.getMessage());
         }
     }
@@ -54,16 +68,16 @@ public class ProductService {
         }
     }
 
-    public void saveHistory(Product product, long price, LocalDate date, float discount){
+    public void saveHistory(Product product, double price, LocalDate date, double discountPrice){
         PriceHistory priceHistory = new PriceHistory();
         priceHistory.setProduct(product);
         priceHistory.setPrice(price);
         priceHistory.setLocalDate(date);
-        priceHistory.setDiscount(discount);
+        priceHistory.setDiscountPrice(discountPrice);
         priceHistoryRepository.save(priceHistory);
     }
 
-    public ResponseDTO<Product> updateProductPrice(int productId, long price) {
+    public ResponseDTO<Product> updateProductPrice(int productId, double price) {
         try {
             Product product = productRepository.findById(productId).orElse(null);
             if (product == null) {
@@ -72,7 +86,8 @@ public class ProductService {
             if (product.getCurrentPrice()!= price) {
                 product.setCurrentPrice(price);
                 productRepository.save(product);
-                saveHistory(product, price, LocalDate.now(), product.getDiscount());
+                double discountAmount =  (product.getCurrentPrice() * (product.getDiscount() / 100));
+                saveHistory(product, price, LocalDate.now(), discountAmount);
             }
             return new ResponseDTO<>(product, HttpStatus.OK, "Product price updated successfully");
         } catch (Exception e) {
