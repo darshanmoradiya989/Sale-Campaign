@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("getAllProducts")
-    public ResponseDTO<List<Product>> saveProduct() {
+    public ResponseDTO<List<Product>> getProductAll() {
         return productService.getProductList();
     }
 
@@ -32,8 +32,13 @@ public class ProductController {
         return productService.getAllPaginated(page, size);
     }
 
+    @PostMapping("saveAll")
+    public ResponseDTO<List<Product>> saveAll(@RequestBody List<Product> products) {
+        return productService.saveAllProduct(products);
+    }
+
     @PutMapping("updatePrice")
-    public ResponseDTO<Product> updateProductPrice(@RequestHeader("productId") int productId, @RequestHeader("price") long price) {
+    public ResponseDTO<Product> updateProductPrice(@RequestHeader("productId") int productId, @RequestHeader("price") double price) {
         return productService.updateProductPrice(productId, price);
     }
 

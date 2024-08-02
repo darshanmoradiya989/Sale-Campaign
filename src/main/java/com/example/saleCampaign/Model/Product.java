@@ -20,10 +20,10 @@ public class Product {
     private String description;
 
     @Column(name = "mrp")
-    private long mrp;
+    private double mrp;
 
     @Column(name = "current_price")
-    private long currentPrice;
+    private double currentPrice;
 
     @Column(name = "discount")
     private float discount;
@@ -40,9 +40,8 @@ public class Product {
 
     private int generateUniqueId() {
         String uuid = UUID.randomUUID().toString().replace("-", "");
-        String productId = uuid.substring(0, 6);
-        int uniqueId = Integer.parseInt(productId, 16);
-        return uniqueId % 1000000;
+        String accNo = uuid.substring(0,6);
+        return (int) (Integer.parseInt(accNo,16) % 1000000L);
     }
 
     @Override
@@ -82,19 +81,19 @@ public class Product {
         this.description = description;
     }
 
-    public long getMrp() {
+    public double getMrp() {
         return mrp;
     }
 
-    public void setMrp(long mrp) {
+    public void setMrp(double mrp) {
         this.mrp = mrp;
     }
 
-    public long getCurrentPrice() {
+    public double getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(long currentPrice) {
+    public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
     }
 

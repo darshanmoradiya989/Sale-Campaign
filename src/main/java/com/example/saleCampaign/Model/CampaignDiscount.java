@@ -10,7 +10,7 @@ public class CampaignDiscount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 

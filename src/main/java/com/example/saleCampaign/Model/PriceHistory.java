@@ -14,15 +14,15 @@ public class PriceHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "price")
-    private long price;
+    private double price;
 
-    @Column(name = "discount")
-    private float discount;
+    @Column(name = "discount_price")
+    private double discountPrice;
 
     @Column(name = "date")
     private LocalDate localDate;
@@ -43,11 +43,11 @@ public class PriceHistory {
         this.product = product;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -59,11 +59,13 @@ public class PriceHistory {
         this.localDate = localDate;
     }
 
-    public float getDiscount() {
-        return discount;
+    public double getDiscountPrice() {
+        return discountPrice;
     }
 
-    public void setDiscount(float discount) {
-        this.discount = discount;
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
     }
+
+
 }
