@@ -4,7 +4,6 @@ package com.example.saleCampaign.Model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "price_history")

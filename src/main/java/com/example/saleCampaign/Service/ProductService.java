@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class ProductService {
             Product savedProduct = productRepository.save(product);
             double discountAmount =  (product.getCurrentPrice() * (product.getDiscount() / 100));
             saveHistory(product, product.getCurrentPrice(), LocalDate.now(), discountAmount);
+
             return new ResponseDTO<>(savedProduct, HttpStatus.OK, "Product saved successfully");
         } catch (Exception e){
             return new ResponseDTO<>(null, HttpStatus.INTERNAL_SERVER_ERROR, "failed to save product" + e.getMessage());
@@ -94,5 +96,4 @@ public class ProductService {
             return new ResponseDTO<>(null, HttpStatus.INTERNAL_SERVER_ERROR, "failed to update product price " + e.getMessage());
         }
     }
-
 }

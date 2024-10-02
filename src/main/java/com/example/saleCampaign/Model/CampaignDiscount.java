@@ -1,7 +1,7 @@
 package com.example.saleCampaign.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
 @Table(name = "campaign_discounts")
@@ -12,6 +12,7 @@ public class CampaignDiscount {
 
     @ManyToOne
     @JoinColumn(name = "campaign_id")
+    @JsonBackReference
     private Campaign campaign;
 
     @Column(name = "product_id")

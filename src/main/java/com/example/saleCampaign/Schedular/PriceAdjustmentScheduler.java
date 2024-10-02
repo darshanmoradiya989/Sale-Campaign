@@ -1,4 +1,4 @@
-package com.example.saleCampaign.Component;
+package com.example.saleCampaign.Schedular;
 
 import com.example.saleCampaign.Model.Campaign;
 import com.example.saleCampaign.Model.CampaignDiscount;
@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PriceAdjustmentScheduler {

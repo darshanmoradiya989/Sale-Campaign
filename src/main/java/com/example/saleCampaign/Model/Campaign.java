@@ -1,6 +1,7 @@
 package com.example.saleCampaign.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Campaign {
     private LocalDate endDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "campaign")
+    @JsonManagedReference
     private List<CampaignDiscount> campaignDiscounts;
 
     public Campaign(){
